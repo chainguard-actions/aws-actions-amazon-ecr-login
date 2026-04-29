@@ -1,5 +1,7 @@
 # aws-actions/amazon-ecr-login
 
+Logs into Amazon ECR with the local Docker client.
+
 Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/aws-actions/amazon-ecr-login](https://github.com/aws-actions/amazon-ecr-login).
 
 ## Versions

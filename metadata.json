@@ -1,5 +1,6 @@
 {
   "owner": "aws-actions",
   "name": "amazon-ecr-login",
-  "visibility": ""
+  "visibility": "internal",
+  "description": "Logs into Amazon ECR with the local Docker client."
 }
