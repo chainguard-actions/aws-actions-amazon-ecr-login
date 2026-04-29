@@ -1,0 +1,5 @@
+{
+  "owner": "aws-actions",
+  "name": "amazon-ecr-login",
+  "visibility": ""
+}

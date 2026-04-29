@@ -1,6 +1,12 @@
 # aws-actions/amazon-ecr-login
 
-Hardened GitHub Action by [Chainguard](https://www.chainguard.dev).
+Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/aws-actions/amazon-ecr-login](https://github.com/aws-actions/amazon-ecr-login).
+
+## Versions
+
+| Version | Tag | Upstream commit |
+|---------|-----|-----------------|
+| v2.1.1 | [`v2.1.1`](https://github.com/chainguard-actions/amazon-ecr-login/tree/v2.1.1) | — |
 
 ## Privacy
 
