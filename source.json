@@ -1,4 +1,6 @@
 {
-  "upstream": "aws-actions/amazon-ecr-login",
-  "version": "v2.1.1"
+  "owner": "aws-actions",
+  "repo": "amazon-ecr-login",
+  "version": "",
+  "url": "https://github.com/aws-actions/amazon-ecr-login"
 }
