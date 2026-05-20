@@ -1,7 +1,0 @@
-{
-  "owner": "aws-actions",
-  "name": "amazon-ecr-login",
-  "visibility": "internal",
-  "description": "Logs into Amazon ECR with the local Docker client.",
-  "block_publish": false
-}
