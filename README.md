@@ -8,7 +8,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
-| v2.1.1 | [`v2.1.1`](https://github.com/chainguard-actions/aws-actions--amazon-ecr-login/tree/v2.1.1) | — |
+| v2.1.1 | [`v2.1.1`](https://github.com/chainguard-actions/aws-actions-amazon-ecr-login/tree/v2.1.1) | — |
 
 ## Privacy
 
