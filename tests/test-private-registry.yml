@@ -1,4 +1,4 @@
-name: Test ECR Login - Public Registry
+name: Test ECR Login - Private Registry (default)
 on:
   workflow_dispatch:
 jobs:
@@ -15,13 +15,15 @@ jobs:
       - id: action
         uses: .
         with:
-          registry-type: public
+          registry-type: private
           skip-logout: 'true'
           mask-password: 'false'
         continue-on-error: true
       - name: Assert action was invoked
         run: |
           echo "Action outcome: ${{ steps.action.outcome }}"
+          # The action will fail without real AWS credentials, but it should
+          # at least be invoked and fail gracefully (not a setup error)
           if [ "${{ steps.action.outcome }}" = "skipped" ]; then
             echo "FAIL: action was skipped unexpectedly"
             exit 1

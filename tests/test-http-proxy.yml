@@ -1,10 +1,12 @@
-name: Test ECR login with http-proxy input
+name: Test ECR Login - HTTP Proxy Input
 on:
   workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
     env:
+      GITHUB_REF: refs/heads/main
+      GITHUB_EVENT_NAME: push
       AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
       AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
       AWS_DEFAULT_REGION: us-east-1
@@ -18,13 +20,11 @@ jobs:
           skip-logout: 'true'
           mask-password: 'false'
         continue-on-error: true
-      - name: Assert action ran with http-proxy input (may fail due to mock credentials)
-        env:
-          OUTCOME: ${{ steps.action.outcome }}
+      - name: Assert action was invoked with http-proxy input
         run: |
-          echo "outcome: $OUTCOME"
-          if [ "$OUTCOME" != "success" ] && [ "$OUTCOME" != "failure" ]; then
-            echo "FAIL: unexpected outcome '$OUTCOME'"
+          echo "Action outcome: ${{ steps.action.outcome }}"
+          if [ "${{ steps.action.outcome }}" = "skipped" ]; then
+            echo "FAIL: action was skipped unexpectedly"
             exit 1
           fi
-          echo "PASS: action ran with http-proxy input, outcome '$OUTCOME'"
+          echo "PASS: action was invoked with http-proxy input (outcome: ${{ steps.action.outcome }})"
