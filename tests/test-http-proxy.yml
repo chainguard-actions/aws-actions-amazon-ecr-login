@@ -5,25 +5,26 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
-      AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      AWS_ACCESS_KEY_ID: test-key-id
+      AWS_SECRET_ACCESS_KEY: test-secret-key
       AWS_DEFAULT_REGION: us-east-1
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - id: action
         uses: .
-        with:
-          http-proxy: "http://proxy.example.com:3128"
-          registry-type: private
-          skip-logout: "true"
         continue-on-error: true
-      - name: Assert step ran (http-proxy input accepted)
-        env:
-          OUTCOME: ${{ steps.action.outcome }}
+        with:
+          http-proxy: "http://proxy.example.com:8080"
+          registry-type: private
+          skip-logout: 'true'
+          mask-password: 'false'
+      - name: Assert action was attempted with http-proxy input
         run: |
-          echo "outcome: $OUTCOME"
-          if [ "$OUTCOME" = "skipped" ]; then
-            echo "FAIL: step was skipped unexpectedly"
+          echo "outcome: ${{ steps.action.outcome }}"
+          # The action is expected to fail without real AWS credentials,
+          # but it must have been invoked (outcome is not 'skipped').
+          if [ "${{ steps.action.outcome }}" = "skipped" ]; then
+            echo "FAIL: action was skipped, expected it to run"
             exit 1
           fi
-          echo "PASS: step executed with http-proxy input"
+          echo "PASS: action ran with http-proxy input"
