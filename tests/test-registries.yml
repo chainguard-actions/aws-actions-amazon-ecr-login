@@ -1,12 +1,10 @@
-name: Test ECR Login - Multiple Registries Input
+name: Test ECR login with registries input
 on:
   workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      GITHUB_REF: refs/heads/main
-      GITHUB_EVENT_NAME: push
       AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
       AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
       AWS_DEFAULT_REGION: us-east-1
@@ -16,15 +14,17 @@ jobs:
         uses: .
         with:
           registry-type: private
-          registries: '123456789012,234567890123'
+          registries: '123456789012,987654321098'
           skip-logout: 'true'
-          mask-password: 'false'
+          mask-password: 'true'
         continue-on-error: true
-      - name: Assert action was invoked with registries input
+      - name: Assert action ran with registries input (auth failure expected without real credentials)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
         run: |
-          echo "Action outcome: ${{ steps.action.outcome }}"
-          if [ "${{ steps.action.outcome }}" = "skipped" ]; then
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "skipped" ]; then
             echo "FAIL: action was skipped unexpectedly"
             exit 1
           fi
-          echo "PASS: action was invoked with registries input (outcome: ${{ steps.action.outcome }})"
+          echo "PASS: action ran with registries input (outcome=$OUTCOME)"

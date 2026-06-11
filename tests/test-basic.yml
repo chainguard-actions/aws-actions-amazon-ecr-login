@@ -15,15 +15,15 @@ jobs:
         with:
           registry-type: private
           skip-logout: 'true'
-          mask-password: 'false'
+          mask-password: 'true'
         continue-on-error: true
-      - name: Assert action ran (may fail due to mock credentials)
+      - name: Assert action ran (auth failure expected without real credentials)
         env:
           OUTCOME: ${{ steps.action.outcome }}
         run: |
           echo "outcome: $OUTCOME"
-          if [ "$OUTCOME" != "success" ] && [ "$OUTCOME" != "failure" ]; then
-            echo "FAIL: unexpected outcome '$OUTCOME'"
+          if [ "$OUTCOME" = "skipped" ]; then
+            echo "FAIL: action was skipped unexpectedly"
             exit 1
           fi
-          echo "PASS: action ran with outcome '$OUTCOME'"
+          echo "PASS: action ran (outcome=$OUTCOME)"
