@@ -1,0 +1,45 @@
+{
+  "name": "aws-actions-amazon-ecr-login",
+  "version": "2.1.6",
+  "description": "Logs in the local Docker client to the AWS account's ECR registry",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint **.js",
+    "package": "ncc build index.js -o dist && ncc build cleanup.js -o dist/cleanup",
+    "test": "eslint **.js && NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --coverage --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aws-actions/amazon-ecr-login.git"
+  },
+  "keywords": [
+    "AWS",
+    "GitHub",
+    "Actions",
+    "JavaScript"
+  ],
+  "author": "AWS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aws-actions/amazon-ecr-login/issues"
+  },
+  "homepage": "https://github.com/aws-actions/amazon-ecr-login#readme",
+  "dependencies": {
+    "@actions/core": "^3.0.1",
+    "@actions/exec": "^3.0.0",
+    "@aws-sdk/client-ecr": "^3.1065.0",
+    "@aws-sdk/client-ecr-public": "^3.1065.0",
+    "@aws-sdk/node-http-handler": "^3.374.0",
+    "@aws-sdk/credential-providers": "^3.1065.0",
+    "https-proxy-agent": "^9.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vercel/ncc": "^0.44.0",
+    "aws-sdk-client-mock": "^4.1.0",
+    "eslint": "^10.4.1",
+    "globals": "^17.6.0",
+    "jest": "^30.4.2"
+  }
+}
