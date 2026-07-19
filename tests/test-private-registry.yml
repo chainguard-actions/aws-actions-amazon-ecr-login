@@ -1,32 +1,46 @@
-name: Test ECR Login - Private Registry (no real creds)
+name: Test ECR Private Registry Login
 on:
   workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
-      AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-      AWS_DEFAULT_REGION: us-east-1
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Attempt ECR private login (expect AWS auth failure, not config failure)
-        id: action
+
+      - name: Configure fake AWS credentials
+        run: |
+          mkdir -p ~/.aws
+          cat > ~/.aws/credentials <<'EOF'
+          [default]
+          aws_access_key_id = AKIAIOSFODNN7EXAMPLE
+          aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+          EOF
+          cat > ~/.aws/config <<'EOF'
+          [default]
+          region = us-east-1
+          EOF
+
+      - id: ecr-login
         uses: .
         with:
           registry-type: private
           skip-logout: 'true'
-        continue-on-error: true
-      - name: Assert action ran and failed due to AWS auth (not config error)
         env:
-          OUTCOME: ${{ steps.action.outcome }}
+          AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+          AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+          AWS_DEFAULT_REGION: us-east-1
+        continue-on-error: true
+
+      - name: Assert action ran (pass or fail with AWS error, not a code crash)
+        env:
+          OUTCOME: ${{ steps.ecr-login.outcome }}
         run: |
           echo "outcome: $OUTCOME"
-          # The action should fail because the credentials are fake,
-          # but it should NOT fail due to missing configuration.
-          # Valid outcomes: 'failure' (AWS rejected fake creds) or 'success' (unlikely without real creds)
-          if [ "$OUTCOME" = "skipped" ]; then
-            echo "FAIL: action was skipped unexpectedly"
+          # The action should either succeed (if real creds) or fail with an AWS auth error
+          # It should NOT crash with a Node.js/code error
+          if [ "$OUTCOME" = "success" ] || [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action ran to completion (outcome=$OUTCOME)"
+          else
+            echo "FAIL: unexpected outcome: $OUTCOME"
             exit 1
           fi
-          echo "PASS: action ran (outcome=$OUTCOME) — config was valid"

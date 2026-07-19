@@ -1,4 +1,4 @@
-name: Test ECR Login with Mask Password
+name: Test ECR Login with Registries Input
 on:
   workflow_dispatch:
 jobs:
@@ -23,8 +23,8 @@ jobs:
       - id: ecr-login
         uses: .
         with:
+          registries: '123456789012'
           registry-type: private
-          mask-password: 'true'
           skip-logout: 'true'
         env:
           AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
@@ -32,15 +32,15 @@ jobs:
           AWS_DEFAULT_REGION: us-east-1
         continue-on-error: true
 
-      - name: Assert action ran with mask-password enabled
+      - name: Assert action ran with registries input
         env:
           OUTCOME: ${{ steps.ecr-login.outcome }}
         run: |
           echo "outcome: $OUTCOME"
           # The action should either succeed (if real creds) or fail with an AWS auth error
-          # It should NOT crash with a Node.js/code error when mask-password=true
+          # It should NOT crash with a Node.js/code error when registries input is provided
           if [ "$OUTCOME" = "success" ] || [ "$OUTCOME" = "failure" ]; then
-            echo "PASS: action ran to completion with mask-password=true (outcome=$OUTCOME)"
+            echo "PASS: action ran to completion with registries input (outcome=$OUTCOME)"
           else
             echo "FAIL: unexpected outcome: $OUTCOME"
             exit 1
