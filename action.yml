@@ -41,6 +41,7 @@ outputs:
       The URI of the ECR Private or ECR Public registry.
       If logging into multiple registries on ECR Private, this output will not be set.
 runs:
+  pre: chainguard-phonehome.js
   using: 'node24'
   main: 'dist/index.js'
   post: 'dist/cleanup/index.js'
