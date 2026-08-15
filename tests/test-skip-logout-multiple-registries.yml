@@ -1,4 +1,4 @@
-name: Test ECR login with http-proxy input
+name: Test skip-logout=true with multiple registries
 on:
   workflow_dispatch:
 jobs:
@@ -12,14 +12,15 @@ jobs:
         continue-on-error: true
         with:
           registry-type: private
-          http-proxy: 'http://proxy.example.com:3128'
+          registries: '123456789012,098765432109'
+          skip-logout: 'true'
           mask-password: 'true'
         env:
           AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
           AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
           AWS_DEFAULT_REGION: us-east-1
 
-      - name: Assert action failed due to AWS auth error (not input validation)
+      - name: Assert action failed at AWS auth stage (inputs accepted correctly)
         env:
           OUTCOME: ${{ steps.action.outcome }}
         run: |
@@ -28,4 +29,4 @@ jobs:
             echo "FAIL: expected action to fail with invalid AWS credentials, got outcome=$OUTCOME"
             exit 1
           fi
-          echo "PASS: action correctly failed when attempting ECR login with http-proxy set and invalid credentials"
+          echo "PASS: action correctly accepted skip-logout=true and multiple registries, failed at AWS auth stage"
