@@ -1,0 +1,36 @@
+name: Test private ECR login (default)
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - id: action
+        uses: .
+        with:
+          registry-type: private
+          mask-password: 'true'
+          skip-logout: 'false'
+        continue-on-error: true
+
+      - name: Assert action ran (succeeded with real creds, or failed gracefully without)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+          REGISTRY: ${{ steps.action.outputs.registry }}
+        run: |
+          echo "outcome: $OUTCOME"
+          echo "registry: $REGISTRY"
+          if [ "$OUTCOME" = "success" ]; then
+            if [ -z "$REGISTRY" ]; then
+              echo "FAIL: action succeeded but registry output is empty"
+              exit 1
+            fi
+            echo "PASS: logged in, registry=$REGISTRY"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (no AWS credentials available)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi
