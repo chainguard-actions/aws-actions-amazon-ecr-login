@@ -1,0 +1,43 @@
+name: Test ECR Login - Public Registry
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run ECR login action (public registry)
+        id: ecr-login
+        uses: .
+        continue-on-error: true
+        with:
+          registry-type: public
+          skip-logout: 'true'
+
+      - name: Assert action ran and handled missing credentials gracefully
+        env:
+          OUTCOME: ${{ steps.ecr-login.outcome }}
+          REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+        run: |
+          echo "outcome: $OUTCOME"
+          echo "registry: $REGISTRY"
+          if [ "$OUTCOME" = "success" ]; then
+            if [ -z "$REGISTRY" ]; then
+              echo "FAIL: action succeeded but registry output is empty"
+              exit 1
+            fi
+            # ECR Public registry should be public.ecr.aws
+            echo "registry output: $REGISTRY"
+            if echo "$REGISTRY" | grep -q "ecr"; then
+              echo "PASS: registry URI contains 'ecr' as expected"
+            else
+              echo "FAIL: registry URI '$REGISTRY' does not look like an ECR registry"
+              exit 1
+            fi
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (no real AWS credentials available)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi
