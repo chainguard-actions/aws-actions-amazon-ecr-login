@@ -13,6 +13,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 | v2.1.5 | [`v2.1.5`](https://github.com/chainguard-actions/aws-actions-amazon-ecr-login/tree/v2.1.5) | [`fa648b4`](https://github.com/aws-actions/amazon-ecr-login/commit/fa648b43de3d4d023bcb3f89ed6940096949c419) | [`HARDENING.md`](https://github.com/chainguard-actions/aws-actions-amazon-ecr-login/blob/v2.1.5/HARDENING.md) |
 | v2.1.6 | [`v2.1.6`](https://github.com/chainguard-actions/aws-actions-amazon-ecr-login/tree/v2.1.6) | [`d539f09`](https://github.com/aws-actions/amazon-ecr-login/commit/d539f0932e70871a027e9d5a9d8fc38589180a64) | [`HARDENING.md`](https://github.com/chainguard-actions/aws-actions-amazon-ecr-login/blob/v2.1.6/HARDENING.md) |
 | v2.1.7 | [`v2.1.7`](https://github.com/chainguard-actions/aws-actions-amazon-ecr-login/tree/v2.1.7) | [`03f1aad`](https://github.com/aws-actions/amazon-ecr-login/commit/03f1aad4c6c7ffd436567f42f9384779290529bd) | [`HARDENING.md`](https://github.com/chainguard-actions/aws-actions-amazon-ecr-login/blob/v2.1.7/HARDENING.md) |
+| v2.2.0 | [`v2.2.0`](https://github.com/chainguard-actions/aws-actions-amazon-ecr-login/tree/v2.2.0) | [`7290e21`](https://github.com/aws-actions/amazon-ecr-login/commit/7290e214a610b32bc0eef81748948b6d466a8783) | [`HARDENING.md`](https://github.com/chainguard-actions/aws-actions-amazon-ecr-login/blob/v2.2.0/HARDENING.md) |
 
 ## Privacy
 
