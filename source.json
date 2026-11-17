@@ -1,6 +1,16 @@
 {
   "owner": "aws-actions",
   "repo": "amazon-ecr-login",
-  "version": "",
-  "url": "https://github.com/aws-actions/amazon-ecr-login"
+  "version": "v2.2.0",
+  "commit_sha": "7290e214a610b32bc0eef81748948b6d466a8783",
+  "url": "https://github.com/aws-actions/amazon-ecr-login",
+  "policy_sha": "374911c4be584df24e6da57af2d990570ef0f859",
+  "test_policy_sha": "843adf9e4b8f85d0c08b27b9d0b09dd094b54702",
+  "test_agent_version": "2",
+  "harden_agent_version": "2",
+  "dist_artifact": {
+    "gcs_uri": "gs://patch-actions-node-artifacts/dist-artifacts/aws-actions/amazon-ecr-login/v2.2.0/sha256-5d2269560b83be9f814f52aeea10d176a9070f93f591e969b835c75d9643114e.tar.gz",
+    "sha256": "5d2269560b83be9f814f52aeea10d176a9070f93f591e969b835c75d9643114e",
+    "size_bytes": 907339
+  }
 }
